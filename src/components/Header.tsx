@@ -48,19 +48,21 @@ const Header = () => {
 
           {/* Contacts */}
           <div className="flex items-center space-x-4">
-            <div className="hidden lg:flex items-center space-x-4 text-sm">
+            <div className="hidden lg:flex items-center space-x-6 text-sm">
               <a href="tel:+79991234567" className="flex items-center space-x-1 text-ai-primary hover:text-ai-secondary transition-colors">
                 <Phone className="w-4 h-4" />
                 <span>+7 (999) 123-45-67</span>
               </a>
-              <a href="https://t.me/aisalesbot" className="flex items-center space-x-1 text-ai-primary hover:text-ai-secondary transition-colors">
-                <Send className="w-4 h-4" />
-                <span>Telegram</span>
-              </a>
-              <a href="mailto:info@aisalesbot.ru" className="flex items-center space-x-1 text-ai-primary hover:text-ai-secondary transition-colors">
-                <Mail className="w-4 h-4" />
-                <span>info@aisalesbot.ru</span>
-              </a>
+              <div className="flex flex-col space-y-1">
+                <a href="https://t.me/aisalesbot" className="flex items-center space-x-1 text-ai-primary hover:text-ai-secondary transition-colors text-xs">
+                  <Send className="w-3 h-3" />
+                  <span>Telegram</span>
+                </a>
+                <a href="mailto:info@aisalesbot.ru" className="flex items-center space-x-1 text-ai-primary hover:text-ai-secondary transition-colors text-xs">
+                  <Mail className="w-3 h-3" />
+                  <span>Email</span>
+                </a>
+              </div>
             </div>
             <Button 
               variant="cta" 
