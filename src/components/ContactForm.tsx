@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Send, Phone, Mail, MessageCircle } from 'lucide-react';
+import { useToast } from './ui/use-toast';
+import emailjs from '@emailjs/browser';
 import happyOwnerImage from '../assets/happy-business-owner.jpg';
 
 const ContactForm = () => {
@@ -10,12 +12,53 @@ const ContactForm = () => {
     phone: '',
     email: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // EmailJS конфигурация - замените на ваши данные
+  const SERVICE_ID = 'your_service_id';
+  const TEMPLATE_ID = 'your_template_id'; 
+  const PUBLIC_KEY = 'your_public_key';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Спасибо! Мы свяжемся с вами в течение часа.');
+    setIsLoading(true);
+
+    try {
+      const templateParams = {
+        user_name: formData.name,
+        user_phone: formData.phone,
+        user_email: formData.email || 'Не указан',
+        to_email: 'dimson1997@inbox.ru',
+        message: `Новая заявка с сайта:
+        
+Имя: ${formData.name}
+Телефон: ${formData.phone}
+Email: ${formData.email || 'Не указан'}
+
+Дата: ${new Date().toLocaleString('ru-RU')}`
+      };
+
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      
+      toast({
+        title: "Спасибо!",
+        description: "Мы получили вашу заявку и свяжемся с вами в течение часа.",
+      });
+
+      // Очищаем форму
+      setFormData({ name: '', phone: '', email: '' });
+      
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      toast({
+        title: "Ошибка",
+        description: "Не удалось отправить заявку. Попробуйте позвонить или написать напрямую.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,10 +135,11 @@ const ContactForm = () => {
                 <Button 
                   type="submit" 
                   variant="hero" 
+                  disabled={isLoading}
                   className="w-full h-14 text-lg rounded-xl group"
                 >
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  Обсудить проект
+                  {isLoading ? 'Отправляем...' : 'Обсудить проект'}
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center">
