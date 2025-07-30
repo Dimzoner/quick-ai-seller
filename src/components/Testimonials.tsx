@@ -119,7 +119,10 @@ const Testimonials = () => {
                 обрабатывает возвраты и отвечает на 95% типовых вопросов без участия человека.
               </p>
               
-              <button className="inline-flex items-center space-x-2 text-ai-primary hover:text-ai-secondary transition-colors font-medium">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="inline-flex items-center space-x-2 text-ai-primary hover:text-ai-secondary transition-colors font-medium"
+              >
                 <span>Узнать, как этого добиться</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
